@@ -20,11 +20,11 @@ def read_root():
     args=parser.parse_args()
     answer=args.x**args.y
     if args.verbose:
-        print(f"{args.x} power to {args.y} equals {answer}")
+        return{f"{args.x} power to {args.y} equals {answer}"}
     elif args.quiet:
-        print(f"{args.x}^{args.y}={answer}")
+        return{f"{args.x}^{args.y}={answer}"}
     else:
-        print ("{} is the result of {} power to {}" .format(answer, args.x, args.y))
+        return {"{} is the result of {} power to {}" .format(answer, args.x, args.y)}
 
 if __name__=='__main__':
     uvicorn.run(app, port=80, host="0.0.0.0")
