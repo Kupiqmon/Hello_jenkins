@@ -1,27 +1,33 @@
 
 import argparse as arg
 
+from fastapi import FastAPI
 
+from typing import Optional
 
+import uvicorn
 
+app=FastAPI()
 
 #print(arg.__doc__)
+@app.get("/")
+def read_root():
+    parser=arg.ArgumentParser()
+    parser.add_argument("-v", "--verbose",help ="verbosity state", action="store_true")
+    parser.add_argument("-q", "--quiet", help="quiet state",action="store_true")
+    parser.add_argument("x", type=int, help="the base")
+    parser.add_argument("y", type=int, help="the exponent")
+    args=parser.parse_args()
+    answer=args.x**args.y
+    if args.verbose:
+        print(f"{args.x} power to {args.y} equals {answer}")
+    elif args.quiet:
+        print(f"{args.x}^{args.y}={answer}")
+    else:
+        print ("{} is the result of {} power to {}" .format(answer, args.x, args.y))
 
-parser=arg.ArgumentParser()
-parser.add_argument("-v", "--verbose",help ="verbosity state", action="store_true")
-parser.add_argument("-q", "--quiet", help="quiet state",action="store_true")
-parser.add_argument("x", type=int, help="the base")
-parser.add_argument("y", type=int, help="the exponent")
-args=parser.parse_args()
-answer=args.x**args.y
-if args.verbose:
-    print(f"{args.x} power to {args.y} equals {answer}")
-elif args.quiet:
-    print(f"{args.x}^{args.y}={answer}")
-else:
-    print ("{} is the result of {} power to {}" .format(answer, args.x, args.y))
-
-
+if __name__=='__main__':
+    uvicorn.run(app, port=80, host="0.0.0.0")
 
 
 #parser.add_argument("square", type=int, help="display a square of a given number")
